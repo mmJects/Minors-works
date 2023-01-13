@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Varieties In One {% block title %} {% endblock %}</title>
+        <meta content="width=width-device,initial-scale=1.0">
+        <link href="{{ url_for('static',filename='styles/style.css')}}" type="text/css" rel="stylesheet">
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <!-- Icon -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+        <!-- Icon Logo-->
+        <link rel="icon" type="image" href="{{url_for('static',filename='images/logo.png')}}">
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" id="home" href="/">Home</a>
+                    {% if session.get("Uid") %}
+                    <a class="nav-item nav-link" id="logout" href="/auth/log-out">Log Out</a>
+                    <a class="nav-item nav-link" id="account-panel" href="{{url_for('acc.acc_panel',username=session.get('name'))}}">Account</a>
+                    <a class="nav-item nav-link text-danger" id="deleteAll" href="{{url_for('acc.delete_all',item='notes')}}" >Delete All Notes</a>
+                    <a class="nav-item nav-link text-danger" id="deleteAllToDos" href="{{url_for('acc.delete_all',item='todos')}}" >Delete All ToDos</a>
+                    {% else %}
+                    <a class="nav-item nav-link" id="signUp" href="/auth/sign-up">SignUp</a>
+                    <a class="nav-item nav-link" id="login" href="/auth/login">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category,message in messages %}
+                {% if category == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="container">
+            {% block body %}
+
+            {% endblock %}
+        </div>
+
+        <script type="text/javascript" src="{{ url_for('static',filename='scripts/script.js')}}"></script>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block title %} | ToDo {% endblock %}
+
+{% block body %}
+
+<input class="form-control mr-sm-2 mt-2" type="search" placeholder="Search"  id="search-todos">
+
+<!-- alert -->
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-box" style="display: none;">
+    <strong>Note</strong> We limited the time range above 1 minute...
+    <button type="button" class="btn-close" data-bs-dismiss="alert" ></button>
+  </div>
+
+<!-- input field -->
+<form action="{{url_for('acc.add_todos')}}" method="post" >
+    <div class="input-group mb-3 mt-3">
+        <!-- To do field -->
+        <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">To</span>
+        </div>
+        <input type="text" class="form-control" name="activity" placeholder="do something" autofocus required>
+        <!-- Time Field -->
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">At</span>
+        </div>
+        <input type="time" name="tm" class="form-control" placeholder="0:00" required>
+        <!-- Date Field -->
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="bi bi-calendar2-check"></i>
+            </span>
+        </div>
+        <select name="day_diff" class="form-select form-select-sm">
+            {% for day_diff,long_date in date_range.items() %}
+            <option value="{{day_diff}}">{{ long_date }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <input type="submit" class="btn btn-primary">
+</form>
+
+{% if todos == {} %}
+    <div class="alert alert-primary mt-2" id="no-todo">
+        <h3>No added notes! Please add notes to make your life more convenient..</h3>
+    </div>
+{% else  %}
+<div class="container" id="display-addition">
+    <div class="row mt-3">
+        {% for key,value in todos.items() %}
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <input value="key" type="hidden">
+                    <nav class="navbar">
+                        <h5 class="tmHead text-break" id="{{key}}">Only <span class="tm">{{value[1]}}</span> left</h5>
+                        <h3 class="card-title mb-2 text-warning text-break">To {{value[0]|capitalize}}</h3>
+                    </nav>
+                <form action="{{url_for('acc.delete_todo')}}" method="post">
+                    <input type="hidden" value ="{{key}}" name="de">
+                    <input type="submit" class="btn btn-primary" value="Finish!" >
+                </form>
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="container" id="display-search" style="display: none;">
+    <div class="row mt-3" id="child-of-display-search">
+        <!-- start -->
+        <!-- end -->
+    </div>
+</div>    
+
+
+{% endblock %}

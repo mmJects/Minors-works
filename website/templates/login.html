@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %} | Login {% endblock %}
+{% block body %}
+
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-10 col-md-8 col-lg-6">
+    <!-- form -->
+    <form method="POST" action="/auth/login">
+        <h3 style="text-align:center" class="mt-5">Log In for happiness</h3>
+        <div class="form-group">
+            <label for="email" class="mb-1">Email Address</label>
+            <input type="email" class="form-control mb-1" name="email" id="email" placeholder="Email" required autofocus autocomplete="off">
+            <label for="password" class="mb-1">Password</label>
+            <input type="password" class="form-control mb-1" name="password" id="password" placeholder="Password" required  autocomplete="off">
+        </div><br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    <!-- form end -->
+    </div>
+    </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %} | Notes {% endblock %}
+
+{% block body %}
+<h1 style="text-align: center;">Hello {{username}}</h1>
+<h1 style="text-align: center;">Notes</h1>
+<ul class="list-group list-group-flush" id="notes" >
+{% for note in notes %}
+<li class="list-group-item" >
+    <h6 class="text-break">{{ note["note"] }}</h6>
+    <form action="{{url_for('acc.delete_note')}}" method="post">
+        <input type="hidden" value="{{note['id']}}" name="deleted-id">
+        <button type="submit" class=" btn-close" style="float: right;"></button>
+    </form>
+</li>
+{% endfor %}
+</ul>
+
+<form method="post" action="{{url_for('acc.add_notes')}}">
+    <textarea name="note" id="note" class="form-control mt-2" autofocus></textarea>
+    <br>
+    <div style="text-align: center;">
+        <button type="submit" class="btn btn-primary">Add Note</button>
+    </div>
+</form>
+{% endblock %}

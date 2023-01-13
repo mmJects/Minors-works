@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %} | Account {% endblock %}
+
+{% block body %}
+<h1>Welcome {{username}}</h1>
+<ul class="list-group">
+    <a  href="{{url_for('acc.notes',username=username)}}" class="list-group-item d-flex justify-content-between align-items-center">
+      Adding Notes
+      <!-- <span class="badge bg-primary rounded-pill">14</span> -->
+    </a>
+    <a href="{{url_for('acc.todos',username=username)}}" class="list-group-item d-flex justify-content-between align-items-center">
+        Adding To-Do lists
+        <!-- <span class="badge bg-primary rounded-pill">14</span> -->
+      </a>
+    <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
+        Coming Soon....
+        <!-- <span class="badge bg-primary rounded-pill">14</span> -->
+      </a>
+  </ul>
+{% endblock %} 

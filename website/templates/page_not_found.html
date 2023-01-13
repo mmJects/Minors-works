@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    {% if session.get("name") %}
+    <h1>Sorry, {{session.get("name")}} !! The page you are requesting is invalid route!!!</h1>
+    <h3>Please go back to <a class="nav-item" href="{{url_for('acc.acc_panel',username=session.get('name'))}}">Home</a>...</h3>
+    {% else %}
+    <h1>Sorry !! The page you are requesting is invalid route!!!</h1>
+    <h3>Please <a href="/auth/login">login</a> or <a href="/auth/sign-up">SignUp</a> to get more access and make your life more convenient.</h3>
+    {% endif %}
+</body>
+</html>
