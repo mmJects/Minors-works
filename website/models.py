@@ -1,7 +1,7 @@
 from . import db,json_data_filepath
 from werkzeug.security import generate_password_hash,check_password_hash
 import json
-from .support_for_todos import sorting_time
+from .support_for_todos import sorting_time,give_the_month
 
 class User():      
     def __init__(self,**args):
@@ -41,10 +41,17 @@ class Notes():
         query = "insert into users_notes(note,Uid) values(?,?)"
         db.execute(query,self.datas["note"],self.datas["uid"])
 
-    def get_notes(self):
+    def get_notes(self,forr="display"):
         search_query = "select id,note from users_notes where Uid = ?"
         results = db.execute(search_query,self.datas["uid"])
-        return results
+        if forr == "display":
+            return results
+        else:
+            csv = "No,Notes"
+            for idx,item in enumerate(results,start=1):
+                csv += "\n" + str(idx) + "," + item['note']
+            return csv
+
 
     def delete_note(self,all=False):
         if not all:
@@ -53,6 +60,8 @@ class Notes():
         else:
             delete_all_note_query = "delete from users_notes where Uid = ?"
             db.execute(delete_all_note_query,self.datas["uid"])
+
+
 
 class ToDos():
     def __init__(self,uid):
@@ -118,4 +127,14 @@ class ToDos():
                     result_dct[key] = value
         return result_dct
 
+    def process_file(self,uid):
+        csv = "No,ToDo,Time,Date"
+        with open(json_data_filepath,"r+") as file:
+            datas = json.load(file)
+            data = datas[uid]
+            for no,todo_data in data.items():
+                date_time = todo_data[1].rsplit(":",1)
+                date = give_the_month(int(date_time[1]))
+                csv += "\n" + no + "," + todo_data[0] + ","  + date_time[0] + "," + date
+        return csv
             

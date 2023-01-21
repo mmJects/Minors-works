@@ -27,11 +27,12 @@ def sorting_time(data):
 
 day_max = [31,28,31,30,31,30,31,31,30,31,30,31]
 month_count = ["Janurary","Februrary","March","April","May","June","July","August","September","Ocotber","November","December"]
+allowed_day_range = 10
 
 def my_nums(start,month,year=2023):
     day = start
     count = 0
-    while count != 10:
+    while count != allowed_day_range:
         if day > day_max[month-1]:
             day = 1
             month += 1
@@ -51,3 +52,11 @@ def give_the_days_range():
         day_range[day] = f"{month_count[m-1]} {d} , {y}"
         day += 1
     return day_range
+
+def give_the_month(will_day):
+    time = datetime.now()
+    day = int(time.strftime("%d"))
+    month = int(time.strftime("%m"))
+    max_range_day = allowed_day_range - ( day_max[month-1] - day)
+    r_month = month_count[month] if 1 <= will_day <= max_range_day else month_count[month-1]
+    return f"{r_month} {will_day}"

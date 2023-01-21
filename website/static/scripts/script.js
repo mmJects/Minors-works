@@ -2,15 +2,21 @@
 var loc = window.location.href
 var nav_delete_all = document.getElementById("deleteAll")
 var nav_delete_todos_all = document.getElementById("deleteAllToDos")
+var nav_download_request_notes = document.getElementById("downloadNotes")
+var nav_downlaod_request_todos = document.getElementById("downloadToDos")
 if (loc.includes("notes")){
     nav_delete_all.style.display = "block"
+    nav_download_request_notes.style.display = "block"
 } else {
     nav_delete_all.style.display = "none"
+    nav_download_request_notes.style.display = "none"
 }
 if (loc.includes("to-dos")){
     nav_delete_todos_all.style.display = "block"
+    nav_downlaod_request_todos.style.display = "block"
 }else{
     nav_delete_todos_all.style.display = "none"
+    nav_downlaod_request_todos.style.display = "none"
 }
 
 

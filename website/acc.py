@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,session,url_for,redirect,flash,request,jsonify
+from flask import Blueprint,render_template,session,url_for,redirect,flash,request,jsonify,Response
 from .models import Notes,ToDos
 from .support_for_todos import give_the_days_range
 import json
@@ -103,6 +103,21 @@ def search_todo():
         result_dct = {}
     print(result_dct)
     return jsonify(result_dct)
+
+@acc.route("/download/<item>")
+def download_request(item):
+    if item == "notes":
+        filename = f"{session.get('name')}_notes.csv"
+        note = Notes(uid=session["Uid"])
+        csv = note.get_notes(forr="download")
+    else:
+        filename = f"{session.get('name')}_todos.csv"
+        csv = todo.process_file(session.get("Uid"),fromm="todos")
+    return Response(csv,
+                    mimetype="text/csv",
+                    headers={"Content-disposition":f"attachment; filename={filename}"})
+
+    
 
 
 def page_not_found(error):
